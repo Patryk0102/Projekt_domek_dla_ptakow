@@ -1,0 +1,146 @@
+// pierwsza klasa
+package com.zetcode;
+
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import javax.swing.JPanel;
+
+class Surface extends JPanel {
+    public Surface() { }
+
+    void beziere(int[][] x, int[][] y, Graphics2D g2d){
+        double t;
+        BasicStroke bs1 = new BasicStroke(6, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL);
+        g2d.setStroke(bs1);
+        g2d.setColor(Color.blue);
+        for(int a=1;a<x.length;a++){
+            for(t=0.0;t<1.0;t+=0.01){
+                double xt= Math.pow(1-t,3)*x[a-1][2] + 3*t*Math.pow(1-t,2)*x[a][0] + 3*Math.pow(t,2)*(1-t)*x[a][1] + Math.pow(t,3)*x[a][2];
+                double yt= Math.pow(1-t,3)*y[a-1][2] + 3*t*Math.pow(1-t,2)*y[a][0] + 3*Math.pow(t,2)*(1-t)*y[a][1] + Math.pow(t,3)*y[a][2];
+
+                g2d.drawLine((int)xt,(int)yt,(int)xt,(int)yt);
+            }
+        }
+        BasicStroke bs2 = new BasicStroke(4, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL);
+        g2d.setStroke(bs2);
+        for(int b=0;b<x.length;b++){
+            for(int a=0;a<3;a++){
+                int xt= x[b][a];
+                int yt= y[b][a];
+
+                g2d.setColor(Color.white);
+                g2d.drawLine(xt,yt,xt,yt);
+            }
+        }
+
+    }
+
+    void beziere_line(int[] x, int[] y, Graphics2D g2d){
+        double t;
+        g2d.setColor(Color.blue);
+        for(t=0.0;t<1.0;t+=0.01){
+            double xt= Math.pow(1-t,3)*x[0] + 3*t*Math.pow(1-t,2)*x[1] + 3*Math.pow(t,2)*(1-t)*x[2] + Math.pow(t,3)*x[3];
+            double yt= Math.pow(1-t,3)*y[0] + 3*t*Math.pow(1-t,2)*y[1] + 3*Math.pow(t,2)*(1-t)*y[2] + Math.pow(t,3)*y[3];
+
+            g2d.drawLine((int)xt,(int)yt,(int)xt,(int)yt);
+        }
+        BasicStroke bs2 = new BasicStroke(5, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL);
+        g2d.setStroke(bs2);
+        g2d.setColor(Color.white);
+        for(int a=0;a<3;a++){
+            int xt= x[a];
+            int yt= y[a];
+            g2d.drawLine(xt,yt,xt,yt);
+        }
+    }
+
+    private void doDrawing(Graphics g) {
+         this.setBackground(Color.red);
+        Graphics2D g2d = (Graphics2D) g.create();
+
+        int xoff=108; 
+        int yoff=442; 
+        
+        
+        int[][] x = new int[][]{ // podaje wartosci x  
+            
+            
+        {93 + xoff,39 + xoff,38 + xoff},
+        {37 + xoff,67 + xoff,53 + xoff},
+        {39 + xoff,226 + xoff,245 + xoff},
+        {249 + xoff,149 + xoff,146 + xoff},
+        {143 + xoff,121 + xoff,106 + xoff},
+        {91 + xoff, 243 + xoff,241 + xoff},
+        {239 + xoff,300 + xoff,288 + xoff},
+        {283 + xoff,341 + xoff,349 + xoff},
+        {367 + xoff,330 + xoff,350 + xoff},
+        {357 + xoff,456 + xoff,441 + xoff},
+        {426 + xoff,496 + xoff,493 + xoff},
+        {490 + xoff,424 + xoff,414 + xoff},
+        {404 + xoff,332 + xoff,328 + xoff},
+        {326 + xoff,330 + xoff,315 + xoff},
+        {300 + xoff,257 + xoff,242 + xoff}};
+                
+
+        
+        int[][] y = new int[][]{ // podaje wartosci y
+        
+            {442 + yoff, 39 + xoff, 440 + yoff, 38 + xoff, 455 + yoff},
+        {470 + yoff,92 + yoff,87 + yoff},
+        {82 + yoff,25 + yoff,151 + yoff},
+        {175 + yoff,222 + yoff,207 + yoff},
+        {192 + yoff,439 + yoff,440 + yoff},
+        {441 + yoff,413 + yoff,428 + yoff},
+        {443 + yoff,131 + yoff,97 + yoff},
+        {83 + yoff,109 + yoff,96 + yoff},
+        {67 + yoff,126 + yoff,330 + yoff},
+        {401 + yoff,94 + yoff,94 + yoff},
+        {94 + yoff,108 + yoff,93 + yoff},
+        {78 + yoff,419 + yoff,430 + yoff},
+        {441 + yoff,388 + yoff,362 + yoff},
+        {347 + yoff,422 + yoff,420 + yoff},
+        {418 + yoff,431 + yoff,429 + yoff}};
+
+        beziere(x,y, g2d);
+    }
+
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        doDrawing(g);
+    }
+}
+
+// druga klasa
+
+package com.zetcode;
+
+import javax.swing.*;
+import java.awt.*;
+
+class PointsE extends JFrame {
+    public PointsE() {
+        initUI();
+    }
+
+    private void initUI() {
+        final com.zetcode.Surface surface = new com.zetcode.Surface();
+        add(surface);
+        setSize(650, 350);
+        setMinimumSize(new Dimension(350,650));
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+    public static void main(String[] args) {
+        EventQueue.invokeLater(() -> {
+            PointsE ex = new PointsE();
+            ex.setVisible(true);
+        });
+    }
+}
+
+
+
